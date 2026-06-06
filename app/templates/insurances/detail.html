@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}保险详情 - 研学实践管理系统{% endblock %}
+{% block content %}
+<div class="detail-page">
+    <h2>保险详情</h2>
+    <div class="detail-info">
+        <div class="detail-row">
+            <span class="detail-label">保单号</span>
+            <span>{{ ins.policy_number }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">保险公司</span>
+            <span>{{ ins.provider }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">保额</span>
+            <span>¥{{ ins.coverage_amount }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">保费</span>
+            <span>¥{{ ins.premium }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">保险起始日期</span>
+            <span>{{ ins.start_date }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">保险截止日期</span>
+            <span>{{ ins.end_date }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">关联报名</span>
+            <span><a href="{{ url_for('registrations.registration_detail', reg_id=ins.registration_id) }}">查看报名</a></span>
+        </div>
+    </div>
+    <a href="{{ url_for('insurances.list_insurances') }}" class="btn btn-outline">返回列表</a>
+</div>
+{% endblock %}

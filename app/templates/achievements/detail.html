@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}成果详情 - 研学实践管理系统{% endblock %}
+{% block content %}
+<div class="detail-page">
+    <h2>研学成果详情</h2>
+    <div class="detail-info">
+        <div class="detail-row">
+            <span class="detail-label">标题</span>
+            <span>{{ ach.title }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">学生</span>
+            <span>{{ ach.student.name }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">研学线路</span>
+            <span><a href="{{ url_for('routes.route_detail', route_id=ach.route_id) }}">{{ ach.route.name }}</a></span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">提交时间</span>
+            <span>{{ ach.submitted_at.strftime('%Y-%m-%d %H:%M') }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">成绩</span>
+            <span>{{ ach.score if ach.score is not none else '未评分' }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">教师反馈</span>
+            <span>{{ ach.feedback or '暂无反馈' }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">成果内容</span>
+            <div class="content-block">{{ ach.content }}</div>
+        </div>
+    </div>
+    {% if current_user.is_admin or current_user.is_teacher %}
+    <div class="grade-section">
+        <h3>评分</h3>
+        <form action="{{ url_for('achievements.grade_achievement', ach_id=ach.id) }}" method="POST">
+            <div class="form-group">
+                <label for="score">成绩（0-100）</label>
+                <input type="number" id="score" name="score" min="0" max="100" step="0.1" required>
+            </div>
+            <div class="form-group">
+                <label for="feedback">反馈</label>
+                <textarea id="feedback" name="feedback" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">提交评分</button>
+        </form>
+    </div>
+    {% endif %}
+    <a href="{{ url_for('achievements.list_achievements') }}" class="btn btn-outline">返回列表</a>
+</div>
+{% endblock %}

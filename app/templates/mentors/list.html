@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}导师考核 - 研学实践管理系统{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>导师考核</h2>
+</div>
+<div class="card-grid">
+    {% for mentor in mentors %}
+    <div class="card">
+        <div class="card-body">
+            <h3><a href="{{ url_for('mentors.mentor_detail', mentor_id=mentor.id) }}">{{ mentor.name }}</a></h3>
+            <p class="text-muted">专业方向：{{ mentor.specialty or '未设置' }}</p>
+            <p>综合评分：{{ mentor.rating }} / 10</p>
+            <p>考核次数：{{ mentor.total_evaluations }}</p>
+            <a href="{{ url_for('mentors.evaluate_mentor', mentor_id=mentor.id) }}" class="btn btn-sm btn-primary">考核评分</a>
+        </div>
+    </div>
+    {% else %}
+    <p>暂无导师信息</p>
+    {% endfor %}
+</div>
+{% endblock %}

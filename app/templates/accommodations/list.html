@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}食宿安排 - 研学实践管理系统{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>食宿安排</h2>
+    {% if current_user.is_admin or current_user.is_teacher %}
+    <a href="{{ url_for('accommodations.create_accommodation') }}" class="btn btn-primary">添加食宿</a>
+    {% endif %}
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>酒店名称</th>
+            <th>关联线路</th>
+            <th>房型</th>
+            <th>入住/退房</th>
+            <th>含餐</th>
+            <th>人均费用</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for acc in accommodations %}
+        <tr>
+            <td>{{ acc.hotel_name }}</td>
+            <td><a href="{{ url_for('routes.route_detail', route_id=acc.route_id) }}">{{ acc.route.name }}</a></td>
+            <td>{{ acc.room_type }}</td>
+            <td>{{ acc.check_in }} 至 {{ acc.check_out }}</td>
+            <td>{{ '是' if acc.meals_included else '否' }}</td>
+            <td>¥{{ acc.cost_per_person }}</td>
+            <td><a href="{{ url_for('accommodations.accommodation_detail', acc_id=acc.id) }}" class="btn btn-sm">查看</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7">暂无食宿记录</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}导师详情 - 研学实践管理系统{% endblock %}
+{% block content %}
+<div class="detail-page">
+    <h2>导师详情</h2>
+    <div class="detail-info">
+        <div class="detail-row">
+            <span class="detail-label">姓名</span>
+            <span>{{ mentor.name }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">专业方向</span>
+            <span>{{ mentor.specialty or '未设置' }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">综合评分</span>
+            <span>{{ mentor.rating }} / 10</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">考核次数</span>
+            <span>{{ mentor.total_evaluations }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">个人简介</span>
+            <p>{{ mentor.bio or '暂无简介' }}</p>
+        </div>
+    </div>
+    <a href="{{ url_for('mentors.evaluate_mentor', mentor_id=mentor.id) }}" class="btn btn-primary">考核评分</a>
+    <a href="{{ url_for('mentors.list_mentors') }}" class="btn btn-outline">返回列表</a>
+</div>
+{% endblock %}

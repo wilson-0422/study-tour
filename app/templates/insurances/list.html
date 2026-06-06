@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}出行保险 - 研学实践管理系统{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>出行保险</h2>
+    {% if current_user.is_admin or current_user.is_teacher %}
+    <a href="{{ url_for('insurances.create_insurance') }}" class="btn btn-primary">添加保险</a>
+    {% endif %}
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>保单号</th>
+            <th>保险公司</th>
+            <th>保额</th>
+            <th>保费</th>
+            <th>保险期限</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ins in insurances %}
+        <tr>
+            <td>{{ ins.policy_number }}</td>
+            <td>{{ ins.provider }}</td>
+            <td>¥{{ ins.coverage_amount }}</td>
+            <td>¥{{ ins.premium }}</td>
+            <td>{{ ins.start_date }} 至 {{ ins.end_date }}</td>
+            <td><a href="{{ url_for('insurances.insurance_detail', ins_id=ins.id) }}" class="btn btn-sm">查看</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6">暂无保险记录</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

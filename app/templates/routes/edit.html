@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}编辑线路 - 研学实践管理系统{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>编辑研学线路</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label for="name">线路名称</label>
+            <input type="text" id="name" name="name" value="{{ route.name }}" required>
+        </div>
+        <div class="form-group">
+            <label for="destination">目的地</label>
+            <input type="text" id="destination" name="destination" value="{{ route.destination }}" required>
+        </div>
+        <div class="form-group">
+            <label for="description">线路描述</label>
+            <textarea id="description" name="description" rows="4">{{ route.description }}</textarea>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="duration">行程天数</label>
+                <input type="number" id="duration" name="duration" value="{{ route.duration }}" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="price">价格（元）</label>
+                <input type="number" id="price" name="price" value="{{ route.price }}" step="0.01" min="0" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="max_students">最大人数</label>
+                <input type="number" id="max_students" name="max_students" value="{{ route.max_students }}" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="status">状态</label>
+                <select id="status" name="status">
+                    <option value="draft" {{ 'selected' if route.status == 'draft' }}>草稿</option>
+                    <option value="published" {{ 'selected' if route.status == 'published' }}>发布</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="start_date">出发日期</label>
+                <input type="date" id="start_date" name="start_date" value="{{ route.start_date }}" required>
+            </div>
+            <div class="form-group">
+                <label for="end_date">返回日期</label>
+                <input type="date" id="end_date" name="end_date" value="{{ route.end_date }}" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">保存修改</button>
+        <a href="{{ url_for('routes.manage_routes') }}" class="btn btn-outline btn-block">取消</a>
+    </form>
+</div>
+{% endblock %}

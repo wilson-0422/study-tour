@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}提交成果 - 研学实践管理系统{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>提交研学成果</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label for="route_id">研学线路</label>
+            <select id="route_id" name="route_id" required>
+                {% for route in routes %}
+                <option value="{{ route.id }}">{{ route.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="title">成果标题</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="content">成果内容</label>
+            <textarea id="content" name="content" rows="6" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">提交成果</button>
+        <a href="{{ url_for('achievements.list_achievements') }}" class="btn btn-outline btn-block">取消</a>
+    </form>
+</div>
+{% endblock %}

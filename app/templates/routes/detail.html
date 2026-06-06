@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}{{ route.name }} - 研学实践管理系统{% endblock %}
+{% block content %}
+<div class="detail-page">
+    <h2>{{ route.name }}</h2>
+    <div class="detail-info">
+        <div class="detail-row">
+            <span class="detail-label">目的地</span>
+            <span>{{ route.destination }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">行程天数</span>
+            <span>{{ route.duration }}天</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">价格</span>
+            <span>¥{{ route.price }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">最大人数</span>
+            <span>{{ route.max_students }}人</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">出发日期</span>
+            <span>{{ route.start_date }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">返回日期</span>
+            <span>{{ route.end_date }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">状态</span>
+            <span class="badge badge-{{ 'success' if route.status == 'published' else 'secondary' }}">
+                {{ '已发布' if route.status == 'published' else '草稿' }}
+            </span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">线路描述</span>
+            <p>{{ route.description }}</p>
+        </div>
+    </div>
+    {% if current_user.is_authenticated and current_user.role == 'student' %}
+    <a href="{{ url_for('registrations.create_registration') }}" class="btn btn-primary">立即报名</a>
+    {% endif %}
+    {% if registrations %}
+    <h3>报名列表</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>学生</th>
+                <th>状态</th>
+                <th>报名时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reg in registrations %}
+            <tr>
+                <td>{{ reg.student.name }}</td>
+                <td>{{ reg.status }}</td>
+                <td>{{ reg.registered_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    <a href="{{ url_for('routes.list_routes') }}" class="btn btn-outline">返回列表</a>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}研学线路 - 研学实践管理系统{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>研学线路</h2>
+    {% if manage %}
+    <a href="{{ url_for('routes.create_route') }}" class="btn btn-primary">创建线路</a>
+    {% endif %}
+</div>
+<div class="card-grid">
+    {% for route in routes %}
+    <div class="card">
+        <div class="card-body">
+            <h3><a href="{{ url_for('routes.route_detail', route_id=route.id) }}">{{ route.name }}</a></h3>
+            <p class="text-muted">目的地：{{ route.destination }}</p>
+            <p>行程天数：{{ route.duration }}天</p>
+            <p>价格：¥{{ route.price }}</p>
+            <p>名额：{{ route.max_students }}人</p>
+            <p>出发日期：{{ route.start_date }}</p>
+            {% if manage %}
+            <span class="badge badge-{{ 'success' if route.status == 'published' else 'secondary' }}">
+                {{ '已发布' if route.status == 'published' else '草稿' }}
+            </span>
+            <div class="card-actions">
+                <a href="{{ url_for('routes.edit_route', route_id=route.id) }}" class="btn btn-sm">编辑</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <p>暂无研学线路</p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}首页 - 研学实践管理系统{% endblock %}
+{% block content %}
+<div class="hero">
+    <h1>研学实践管理系统</h1>
+    <p>一站式研学线路设计、学生报名、出行保险、食宿安排、成果归档与导师考核平台</p>
+    {% if not current_user.is_authenticated %}
+    <div class="hero-actions">
+        <a href="{{ url_for('auth.login') }}" class="btn btn-primary">登录</a>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-outline">注册</a>
+    </div>
+    {% else %}
+    <div class="hero-actions">
+        <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary">进入控制台</a>
+    </div>
+    {% endif %}
+</div>
+<div class="features">
+    <div class="feature-card">
+        <h3>研学线路设计</h3>
+        <p>灵活创建和管理研学线路，支持多种目的地和行程安排</p>
+    </div>
+    <div class="feature-card">
+        <h3>学生报名</h3>
+        <p>在线报名、审批流程，实时掌握报名状态</p>
+    </div>
+    <div class="feature-card">
+        <h3>出行保险</h3>
+        <p>为每位出行学生配置保险，保障出行安全</p>
+    </div>
+    <div class="feature-card">
+        <h3>食宿安排</h3>
+        <p>统一管理住宿和餐饮，确保研学期间生活无忧</p>
+    </div>
+    <div class="feature-card">
+        <h3>研学成果归档</h3>
+        <p>学生提交研学报告，教师在线评分反馈</p>
+    </div>
+    <div class="feature-card">
+        <h3>导师考核</h3>
+        <p>多维度导师评价体系，持续提升研学质量</p>
+    </div>
+</div>
+{% endblock %}

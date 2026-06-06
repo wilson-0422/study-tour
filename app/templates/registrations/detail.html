@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}报名详情 - 研学实践管理系统{% endblock %}
+{% block content %}
+<div class="detail-page">
+    <h2>报名详情</h2>
+    <div class="detail-info">
+        <div class="detail-row">
+            <span class="detail-label">学生姓名</span>
+            <span>{{ reg.student.name }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">研学线路</span>
+            <span><a href="{{ url_for('routes.route_detail', route_id=reg.route_id) }}">{{ reg.route.name }}</a></span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">状态</span>
+            <span class="badge badge-{{ 'warning' if reg.status == 'pending' else ('success' if reg.status == 'approved' else ('danger' if reg.status == 'rejected' else 'secondary')) }}">
+                {% if reg.status == 'pending' %}待审核
+                {% elif reg.status == 'approved' %}已通过
+                {% elif reg.status == 'rejected' %}已拒绝
+                {% else %}已取消{% endif %}
+            </span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">报名时间</span>
+            <span>{{ reg.registered_at.strftime('%Y-%m-%d %H:%M') }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">备注</span>
+            <span>{{ reg.notes or '无' }}</span>
+        </div>
+    </div>
+    {% if reg.insurance %}
+    <h3>保险信息</h3>
+    <div class="detail-info">
+        <div class="detail-row">
+            <span class="detail-label">保险公司</span>
+            <span>{{ reg.insurance.provider }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">保单号</span>
+            <span>{{ reg.insurance.policy_number }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">保额</span>
+            <span>¥{{ reg.insurance.coverage_amount }}</span>
+        </div>
+    </div>
+    {% endif %}
+    <a href="{{ url_for('registrations.list_registrations') }}" class="btn btn-outline">返回列表</a>
+</div>
+{% endblock %}

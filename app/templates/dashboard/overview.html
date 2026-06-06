@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}控制台 - 研学实践管理系统{% endblock %}
+{% block content %}
+<div class="dashboard">
+    <h2>管理控制台</h2>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value">{{ route_count }}</div>
+            <div class="stat-label">研学线路</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ reg_count }}</div>
+            <div class="stat-label">报名总数</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ pending_reg }}</div>
+            <div class="stat-label">待审核报名</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ ach_count }}</div>
+            <div class="stat-label">研学成果</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ mentor_count }}</div>
+            <div class="stat-label">导师数量</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ avg_score }}</div>
+            <div class="stat-label">平均成绩</div>
+        </div>
+    </div>
+    <div class="dashboard-section">
+        <h3>最近报名</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>学生</th>
+                    <th>线路</th>
+                    <th>状态</th>
+                    <th>报名时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reg in recent_regs %}
+                <tr>
+                    <td>{{ reg.student.name }}</td>
+                    <td>{{ reg.route.name }}</td>
+                    <td>
+                        <span class="badge badge-{{ 'warning' if reg.status == 'pending' else ('success' if reg.status == 'approved' else 'secondary') }}">
+                            {% if reg.status == 'pending' %}待审核
+                            {% elif reg.status == 'approved' %}已通过
+                            {% elif reg.status == 'rejected' %}已拒绝
+                            {% else %}已取消{% endif %}
+                        </span>
+                    </td>
+                    <td>{{ reg.registered_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="4">暂无报名记录</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="dashboard-quick-links">
+        <h3>快捷操作</h3>
+        <div class="quick-links">
+            <a href="{{ url_for('routes.manage_routes') }}" class="quick-link">线路管理</a>
+            <a href="{{ url_for('registrations.list_registrations') }}" class="quick-link">报名管理</a>
+            <a href="{{ url_for('insurances.list_insurances') }}" class="quick-link">保险管理</a>
+            <a href="{{ url_for('accommodations.list_accommodations') }}" class="quick-link">食宿管理</a>
+            <a href="{{ url_for('achievements.list_achievements') }}" class="quick-link">成果管理</a>
+            <a href="{{ url_for('mentors.list_mentors') }}" class="quick-link">导师考核</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

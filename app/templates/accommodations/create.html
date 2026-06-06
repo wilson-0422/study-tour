@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}添加食宿 - 研学实践管理系统{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>添加食宿安排</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label for="route_id">关联线路</label>
+            <select id="route_id" name="route_id" required>
+                {% for route in routes %}
+                <option value="{{ route.id }}">{{ route.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="hotel_name">酒店名称</label>
+            <input type="text" id="hotel_name" name="hotel_name" required>
+        </div>
+        <div class="form-group">
+            <label for="address">酒店地址</label>
+            <input type="text" id="address" name="address" required>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="check_in">入住日期</label>
+                <input type="date" id="check_in" name="check_in" required>
+            </div>
+            <div class="form-group">
+                <label for="check_out">退房日期</label>
+                <input type="date" id="check_out" name="check_out" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="room_type">房型</label>
+                <select id="room_type" name="room_type" required>
+                    <option value="标准双人间">标准双人间</option>
+                    <option value="标准单人间">标准单人间</option>
+                    <option value="大床房">大床房</option>
+                    <option value="家庭房">家庭房</option>
+                    <option value="多人间">多人间</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="cost_per_person">人均费用（元）</label>
+                <input type="number" id="cost_per_person" name="cost_per_person" step="0.01" min="0" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="meals_included"> 含餐
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">添加食宿</button>
+        <a href="{{ url_for('accommodations.list_accommodations') }}" class="btn btn-outline btn-block">取消</a>
+    </form>
+</div>
+{% endblock %}

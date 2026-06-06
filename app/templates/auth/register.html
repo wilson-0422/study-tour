@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}注册 - 研学实践管理系统{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>用户注册</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label for="username">用户名</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">密码</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div class="form-group">
+            <label for="name">姓名</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">邮箱</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">手机号</label>
+            <input type="text" id="phone" name="phone">
+        </div>
+        <div class="form-group">
+            <label for="role">角色</label>
+            <select id="role" name="role">
+                <option value="student">学生</option>
+                <option value="mentor">导师</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">注册</button>
+    </form>
+    <p class="form-footer">已有账号？<a href="{{ url_for('auth.login') }}">立即登录</a></p>
+</div>
+{% endblock %}

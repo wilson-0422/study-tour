@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}报名记录 - 研学实践管理系统{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>报名记录</h2>
+    <a href="{{ url_for('registrations.create_registration') }}" class="btn btn-primary">报名</a>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>研学线路</th>
+            <th>状态</th>
+            <th>报名时间</th>
+            <th>备注</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for reg in registrations %}
+        <tr>
+            <td><a href="{{ url_for('routes.route_detail', route_id=reg.route_id) }}">{{ reg.route.name }}</a></td>
+            <td>
+                <span class="badge badge-{{ 'warning' if reg.status == 'pending' else ('success' if reg.status == 'approved' else ('danger' if reg.status == 'rejected' else 'secondary')) }}">
+                    {% if reg.status == 'pending' %}待审核
+                    {% elif reg.status == 'approved' %}已通过
+                    {% elif reg.status == 'rejected' %}已拒绝
+                    {% else %}已取消{% endif %}
+                </span>
+            </td>
+            <td>{{ reg.registered_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ reg.notes or '-' }}</td>
+            <td>
+                <a href="{{ url_for('registrations.registration_detail', reg_id=reg.id) }}" class="btn btn-sm">查看</a>
+                {% if current_user.is_admin or current_user.is_teacher %}
+                {% if reg.status == 'pending' %}
+                <form action="{{ url_for('registrations.approve_registration', reg_id=reg.id) }}" method="POST" style="display:inline">
+                    <button type="submit" class="btn btn-sm btn-success">通过</button>
+                </form>
+                <form action="{{ url_for('registrations.reject_registration', reg_id=reg.id) }}" method="POST" style="display:inline">
+                    <button type="submit" class="btn btn-sm btn-danger">拒绝</button>
+                </form>
+                {% endif %}
+                {% endif %}
+                {% if reg.status == 'pending' and reg.student_id == current_user.id %}
+                <form action="{{ url_for('registrations.cancel_registration', reg_id=reg.id) }}" method="POST" style="display:inline">
+                    <button type="submit" class="btn btn-sm">取消</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5">暂无报名记录</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

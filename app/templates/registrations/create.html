@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}报名 - 研学实践管理系统{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>研学报名</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label for="route_id">选择线路</label>
+            <select id="route_id" name="route_id" required>
+                {% for route in routes %}
+                <option value="{{ route.id }}">{{ route.name }} - {{ route.destination }}（¥{{ route.price }}）</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="notes">备注</label>
+            <textarea id="notes" name="notes" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">提交报名</button>
+        <a href="{{ url_for('registrations.list_registrations') }}" class="btn btn-outline btn-block">取消</a>
+    </form>
+</div>
+{% endblock %}

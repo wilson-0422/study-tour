@@ -1,0 +1,24 @@
+<header class="header">
+    <div class="header-inner">
+        <a href="{{ url_for('main.index') }}" class="logo">研学实践管理系统</a>
+        <nav class="nav">
+            <a href="{{ url_for('routes.list_routes') }}">研学线路</a>
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('main.dashboard') }}">控制台</a>
+            <a href="{{ url_for('registrations.list_registrations') }}">我的报名</a>
+            <a href="{{ url_for('insurances.list_insurances') }}">出行保险</a>
+            <a href="{{ url_for('accommodations.list_accommodations') }}">食宿安排</a>
+            <a href="{{ url_for('achievements.list_achievements') }}">研学成果</a>
+            <a href="{{ url_for('mentors.list_mentors') }}">导师考核</a>
+            {% if current_user.is_admin or current_user.is_teacher %}
+            <a href="{{ url_for('routes.manage_routes') }}">线路管理</a>
+            {% endif %}
+            <span class="user-info">{{ current_user.name }}</span>
+            <a href="{{ url_for('auth.logout') }}">退出</a>
+            {% else %}
+            <a href="{{ url_for('auth.login') }}">登录</a>
+            <a href="{{ url_for('auth.register') }}">注册</a>
+            {% endif %}
+        </nav>
+    </div>
+</header>
